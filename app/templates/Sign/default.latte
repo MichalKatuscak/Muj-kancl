@@ -1,0 +1,37 @@
+{var $showPanel = 0}
+{block content}
+    <div class="container">
+      <form action="{link Sign:default}" name="sign" method="POST">
+          <div class="hero-unit" style="width:400px;margin:auto;">
+            <h1 style="font-family:Georgia;margin-bottom:20px;">Můj kancl</h1>
+            <p>
+            {ifset $msg}{$msg}{/ifset}
+            <p>
+            <input type="text" name="username" placeholder="Uživatelské jméno" value="{ifset $username}{$username}{/ifset}" class="span5">
+            <p>
+            <input type="password" name="password" placeholder="Heslo" value="{ifset $password}{$password}{/ifset}" class="span5">
+            <p>
+            <input type="checkbox" name="remember" value="1" id="remember"><label style="display:inline" for="remember"> Pamatovat přihlášení</label>
+            <p><button class="btn btn-primary btn-large" onClick="document.forms.sign.submit();">Přihlásit se</button></p>
+          </div>
+      </form>
+
+    </div> <!-- /container -->
+
+{/block}
+
+
+{block head}
+{*
+<style>
+html { overflow-y: scroll; }
+body { font: 14px/1.65 Verdana, "Geneva CE", lucida, sans-serif; color: #333; margin: 38px auto; width: 940px;}
+
+img { border: none; }
+
+a { color: #006aeb; padding: 3px 1px; }
+
+a:hover, a:active, a:focus { background-color: #006aeb; text-decoration: none; color: white; }
+</style>
+*}
+{/block}

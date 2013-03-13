@@ -1,0 +1,103 @@
+{block content}
+    <div class="container">
+        <div class="row">
+            <div class="span4">
+                <div class="widget">
+                    <div class="widget-header"><span class="icon-home"></span>&nbsp;&nbsp;Přehled za rok 2012</div>
+                    <table class="table">
+                        <tr><td>Zaplacených faktur: <td>{$num_invoices_paid} <td style="text-align:right"><strong>{number_format($price_invoices_paid, 2, ',', ' ')} Kč</strong>
+                        <tr><td>Nezaplacených faktur: <td>{$num_invoices_unpaid} <td style="text-align:right"><strong>{number_format($price_invoices_unpaid, 2, ',', ' ')} Kč</strong>
+                        <tr><td>Faktury po splatnosti: <td>{$num_invoices_unpaid_warning} <td style="text-align:right"><strong>{number_format($price_invoices_unpaid_warning, 2, ',', ' ')} Kč</strong>
+                        <tr><td><strong>Celkem</strong>: <td><strong>{$num_invoices_unpaid_warning+$num_invoices_unpaid+$num_invoices_paid}</strong> <td style="text-align:right"><strong>{number_format($price_invoices_unpaid_warning+$price_invoices_unpaid+$price_invoices_paid, 2, ',', ' ')} Kč</strong>
+                    </table>
+                </div>
+            </div>
+            <div class="span8">  
+                <div class="widget">
+                    <div class="widget-header">Faktury za rok 2012</div>
+                    
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="610" height="137" style="margin-top:0px;margin-left:5px;">
+                            {foreach $months  as $month=>$data}
+                                <line x1="{50+(($month-1)*50)}" y1="20" x2="{50+(($month-1)*50)}" y2="124"
+                                style="stroke:#ddd;stroke-width:1"/>
+                                <text x="{45+(($month-1)*50)}" y="137" fill="#ddd" style="font-size:10px">{$month}</text>
+                            {/foreach}
+                            <polyline points="
+                            {foreach $months  as $month=>$data}
+                                {50+(($month-1)*50)} {$data['point']+23},
+                            {/foreach}
+                            " style="fill:none;stroke:#333;stroke-width:2" />
+                            
+                            
+                            <text x="2" y="15" fill="#333">{number_format($max_price, 2, ',', ' ')} Kč</text>
+                            <text x="2" y="120" fill="#333">{number_format(0, 2, ',', ' ')} Kč</text>
+                            
+                            <line x1="50" y1="20" x2="600" y2="20"
+                            style="stroke:#ddd;stroke-width:1"/>
+                            <line x1="50" y1="20" x2="50" y2="124"
+                            style="stroke:#ddd;stroke-width:1"/>
+                        </svg>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <div class="widget">
+                    <div class="widget-header">Měsíční souhrny</div>
+                    <table class="table">
+                        <tr>
+                            <th>Měsíc</th>
+                            {foreach $months as $data}
+                                    <td style="text-align:right">{$data['month']}</td>  
+                            {/foreach}
+                        </tr>
+                        <tr>
+                            <th>Počet faktur</th>
+                            {foreach $months as $data}
+                                    <td style="text-align:right;font-size:10px;">{$data['invoices']}</td>  
+                            {/foreach}
+                        </tr>
+                        <tr>
+                            <th>Příjem</th>
+                            {foreach $months as $data}
+                                    <td style="text-align:right;font-size:10px;white-space: nowrap;">{number_format($data['price'], 0, ',', ' ')} Kč</td>  
+                            {/foreach}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <div class="widget">
+                    <div class="widget-header">Lístečky</div>
+                    <div style="width:202px;height:172px;float:left;margin: 10px 0 0 10px;padding:10px 10px 0 10px;box-shadow:0 0 2px #555;">
+                        <h4 style="margin-bottom:8px;">Nový lísteček</h4>
+                        <form action="" method="post" style="margin:0;padding:0;" onsubmit="if($('#text').val() =='') { alert('Musíte vyplnit text lístečku'); $('#text').focus(); return false; }"> 
+                            <textarea name="text" id="text" rows="5" style="width:192px;height:90px;color:#000;" required></textarea>
+                            <select name="color" style="width:102px;float:left;" onchange="$('#todoText').css('background-color','#'+this.value)">
+                                <option value="fff">Bílý</option>
+                                <option value="ff9">Žlutý</option>
+                                <option value="9f9">Zelený</option>
+                                <option value="f99">Červený</option>
+                                <option value="7bf">Modrý</option>
+                            </select>
+                            <input class="btn" type="submit" name="newTODO" value="Přidat" style="margin-left:10px;width:90px">
+                            
+                        </form>
+                    </div>
+                    {if}
+                        {foreach $todo as $item}
+    <div style="position:relative;width:200px;height:160px;float:left;margin: 10px 0 0 10px;padding:11px;box-shadow:0 0 2px #555;color:#000;background-color:#{$item->color}">
+        <p>{$item->text}
+        <a n:href="Summary:delete $item->id_todo" class="icon-remove" style="position:absolute;top:10px;right:10px;"></a>
+    </div>
+                        {/foreach}
+                    {/if isset($item)}
+                    <hr style="clear:both;margin:10px;">
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+{/block}

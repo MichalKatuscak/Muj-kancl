@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<title>{ifset $title}{$title} » {/ifset}Můj kancl</title>
+
+	<link type="text/css" href="{$basePath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link type="text/css" href="{$basePath}/css/smoothness/jquery-ui-1.8.19.custom.css" rel="stylesheet" />	
+    <style type="text/css">
+        body {
+            padding-top: 110px;
+            padding-bottom: 40px;
+        }
+        .brand {
+            font-family:Georgia;
+        }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+	<link rel="shortcut icon" href="{$basePath}/favicon.png" type="image/png">
+
+	<script type="text/javascript" src="{$basePath}/js/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery-ui-1.8.19.custom.min.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery.ui.datepicker-cs.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery.nette.js"></script>
+	<script type="text/javascript" src="{$basePath}/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/confirmDialog.js"></script>
+	{block head}{/block}
+</head>
+
+<body>
+	<script> document.body.className+=' js' </script>
+{default $showPanel = 1}
+{if $showPanel}
+<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner navbar-inner-first">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Můj kancl</a>
+          <div class="nav-collapse">
+            <ul class="nav" style="text-align:center">
+              {if $user->group_id == 1}<li{ifCurrent Homepage:*} class="active"{/ifCurrent}><a n:href="Homepage:default"><span class="icon-shopping-cart"></span> Administrátorský přehled</a></li>{/if}  
+            </ul>
+            <ul class="nav pull-right">
+              <li><a title="{if $user->group_id == 1}(Administrátor)
+{elseif $user->group_id == 3}(Klient)
+{elseif $user->group_id == 9}(Demouživatel)
+{else}(Podnikatel)
+{/if}" n:href="Settings:default"><span class="icon-user"></span> <span style="font-weight:normal">{$user->first_name} {$user->last_name}</span></a></li>   
+              <li><a n:href="Sign:logout" title="Odhlásit"><span class="icon-off"></span></a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+
+
+      <div class="navbar-inner navbar-inner-second">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="nav-collapse">
+          {if $user->group_id == 3}
+            <ul class="nav" style="text-align:center">
+              <li{ifCurrent Projects:*} class="active"{/ifCurrent}><a n:href="Projects:default"><span class="icon-folder-open"></span><br />Projekty</a></li>     
+              <li{ifCurrent Invoices:*} class="active"{/ifCurrent}><a n:href="Invoices:default"><span class="icon-list-alt"></span><br />Faktury</a></li>
+              <li{ifCurrent Settings:*} class="active"{/ifCurrent}><a n:href="Settings:default"><span class="icon-cog"></span><br />Nastavení</a></li>
+              <!--<li{ifCurrent Messagess:*} class="active"{/ifCurrent}><a n:href="Messagess:default"><span class="icon-comment"></span><br />Komunikace</a></li>   
+            --></ul>
+          {else}
+            <ul class="nav" style="text-align:center">
+              <li{ifCurrent Summary:*} class="active"{/ifCurrent}><a n:href="Summary:default"><span class="icon-home"></span><br />Přehled</a></li> 
+              <li{ifCurrent Projects:*} class="active"{/ifCurrent}><a n:href="Projects:default"><span class="icon-folder-open"></span><br />Projekty</a></li>     
+              <li{ifCurrent Clients:*} class="active"{/ifCurrent}><a n:href="Clients:default"><span class="icon-user"></span><br />Klienti</a></li>
+              <li{ifCurrent Suppliers:*} class="active"{/ifCurrent}><a n:href="Suppliers:default"><span class="icon-briefcase"></span><br />Dodavatelé</a></li>
+              <li{ifCurrent Invoices:*} class="active"{/ifCurrent}><a n:href="Invoices:default"><span class="icon-list-alt"></span><br />Faktury</a></li> 
+              <!--<li{ifCurrent Warehouse:*} class="active"{/ifCurrent}><a n:href="Warehouse:default"><span class="icon-th"></span><br />Sklad</a></li><!--   
+              <li{ifCurrent Messagess:*} class="active"{/ifCurrent}><a n:href="Messagess:default"><span class="icon-comment"></span><br />Komunikace</a></li>  
+              <li{ifCurrent Cars:*} class="active"{/ifCurrent}><a n:href="Cars:default"><span class="icon-book"></span><br />Kniha jízd</a></li>-->   
+              <li{ifCurrent Settings:*} class="active"{/ifCurrent}><a n:href="Settings:default"><span class="icon-cog"></span><br />Nastavení</a></li>
+            </ul>
+          {/if}
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+{/if}
+
+	{include #content} 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7994362-10']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

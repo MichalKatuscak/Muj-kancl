@@ -1,0 +1,43 @@
+{block content}
+    <div class="container">
+    <p>
+    {if $limit < 1} 
+        Váš limit jste vyčerpal, nemůžete vytvořit nového klienta. 
+    {else} 
+      <a n:href="new" class="btn">Přidat klienta</a>
+        Zbývá vám {!$limit==1000?"&infin;":$limit} klientů do vyčerpání limitu.
+    {/if}
+    </p>
+{if $clients->fetch()}
+    <table class="table table-striped">
+      <thead>
+        <tr><th>Jméno klienta<th>Telefon<th>Email<th> <th> 
+      </thead>
+        {foreach $clients as $client}
+            <tr><td>{$client->last_name} {$client->first_name}
+            <td>{$client->phone}
+            <td>{$client->email}
+            <td><a class="icon-pencil" n:href="edit $client->id_user"></a>
+            <td>
+<a id="myLink" n:href="delete $client->id_user"
+   data-confirm="modal"
+   data-confirm-title="Potvrdit"
+   data-confirm-header-class="btn-inverse"
+   data-confirm-text="Opravdu chcete uživatele <strong>{$client->last_name} {$client->first_name}</strong> smazat?"
+   data-confirm-cancel-class="btn-success"
+   data-confirm-cancel-text="Zpět"
+   data-confirm-ok-class="btn-danger"
+   data-confirm-ok-text="Smazat"
+   class="icon-trash"
+   ></a>
+        {/foreach}
+    </table>
+                 
+{else}
+<p>
+Nenalezen žádný klient.
+{/if}
+
+    </div> <!-- /container -->
+
+{/block}

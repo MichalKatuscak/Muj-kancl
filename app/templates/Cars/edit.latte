@@ -1,0 +1,119 @@
+{block content}
+    <div class="container">
+{ifset $msg}<p>{$msg}{/ifset}                   
+{if $client}                                       
+    <form action="" method="POST" class="form-horizontal">
+    <div class="row">
+      <fieldset class="span5">
+        <legend>Klient</legend>
+        <div class="control-group">
+          <label class="control-label" for="first_name">Jméno</label>
+          <div class="controls">
+            <input type="text" id="first_name" name="first_name" value="{$client->first_name}">
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="last_name">Příjmení</label>
+          <div class="controls">
+            <input type="text" id="last_name" name="last_name" value="{$client->last_name}">
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="ic">IČ</label>
+          <div class="controls">
+            <input type="text" id="ic" name="ic" value="{$client->ic}">
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="dic">DIČ</label>
+          <div class="controls">
+            <input type="text" id="dic" name="dic" value="{$client->dic}">
+          </div>
+        </div>
+      </fieldset>
+      
+      <fieldset class="span5 offset1">
+        <legend>Vlastní poznámka</legend>
+        <div class="control-group">
+            <textarea class="input-xlarge" style="width:98%;" rows="5" name="note">{$client->note}</textarea>
+        </div>
+      </fieldset>
+   </div>
+   <div class="row">   
+      <fieldset class="span5">
+        <legend>Kontaktní údaje</legend>
+        
+        <div class="control-group">
+          <label class="control-label" for="phone">Telefon</label>
+          <div class="controls">
+            <input type="text" id="phone" name="phone" value="{$client->phone}">
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="email">Email</label>
+          <div class="controls">
+            <input type="text" id="email" name="email" value="{$client->email}">
+          </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="address">Adresa</label>
+            <div class="controls">
+                <textarea rows="3" id="address" name="address">{$client->address}</textarea>
+            </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="www">WWW</label>
+          <div class="controls">
+            <input type="text" id="www" name="www" value="{$client->www}">
+          </div>
+        </div>
+      </fieldset>
+      
+      <fieldset class="span5 offset1">
+        <legend>Bankovní údaje</legend>
+        
+        <div class="control-group">
+          <label class="control-label" for="bank_name">Banka</label>
+          <div class="controls">
+            <input type="text" id="bank_name" name="bank_name" value="{$client->bank_name}">
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="bank_number">Číslo účtu</label>
+          <div class="controls">
+            <input type="text" id="bank_number" name="bank_number" value="{$client->bank_number}">
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="swift_code">Swift kód</label>
+          <div class="controls">
+            <input type="text" id="swift_code" name="swift_code" value="{$client->swift_code}">
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="iban">IBAN</label>
+          <div class="controls">
+            <input type="text" id="iban" name="iban" value="{$client->iban}">
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div id="row">
+          <center><input type="submit" name="save" class="btn" value="Uložit údaje"></center>
+    </div>
+    </form> 
+{else}
+<h2>Zákazník neexistuje.</h2>
+{/if}
+    </div> <!-- /container -->
+
+{/block}

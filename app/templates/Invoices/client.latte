@@ -1,0 +1,37 @@
+{snippet content}   
+        <input name="dodavatel" type="hidden" value="{$client->id_user}">
+        <div class="control-group">
+            <label class="control-label" for="d_address">Adresa</label>
+            <div class="controls">
+                <textarea rows="3" id="d_address" name="d_address" readonly>{$client->address}</textarea>
+            </div>
+        </div> 
+            
+        <div class="control-group">
+          <label class="control-label" for="d_phone">Telefon</label>
+          <div class="controls">
+            <input type="text" id="d_phone" name="d_phone" value="{$client->phone}" readonly>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="d_email">Email</label>
+          <div class="controls">
+            <input type="text" id="d_email" name="d_email" value="{$client->email}" readonly>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="ic">IČ</label>
+          <div class="controls">
+            <input type="text" id="d_ic" name="d_ic" value="{$client->ic}" readonly>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="d_dic">DIČ</label>
+          <div class="controls">
+            <input type="text" id="d_dic" name="d_dic" value="{$client->dic}" readonly>
+          </div>
+        </div>
+{/snippet}

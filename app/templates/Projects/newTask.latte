@@ -1,0 +1,58 @@
+{block content}
+    <div class="container">   
+        <div class="widget">
+        <h2><span style="font-weight:normal">Projekt:</span> <a n:href="Projects:show $project->id_project">{$project->name}</a></h2>
+        </div>
+{ifset $msg}<div class="widget"><p>{$msg}</div>{/ifset}                      
+    <form action="" method="POST" class="form-horizontal" onsubmit="return validate(this)">
+        <div class="row">
+            <div class="span6"> 
+            <div class="widget">
+                <div class="widget-header">Nový úkol</div>  
+
+                    <div class="control-group">
+                    <label class="control-label" for="name">Jméno úkolu</label>
+                    <div class="controls">
+                        <input type="text" id="name" name="name" required="required">
+                    </div>
+                    </div>
+                    <div class="control-group">
+                    <label class="control-label" for="price_from_supplier" >Cena úkolu</label>
+                    <div class="controls" style="white-space: nowrap;">
+                        <input type="text" id="price_from_supplier" class="input-small" style="text-align:right" name="price_from_supplier"> Kč
+                    </div>
+                    </div>
+                    <div class="control-group">
+                    <div class="controls">
+                        <input type="submit" name="new" class="btn" value="Přidat úkol">
+                    </div>
+                    </div>
+            </div>
+            </div>
+            <div class="span6">   
+                <div class="widget">
+                    <div class="widget-header">Zadání</div>
+                    <div class="control-group">
+                        <textarea rows="20" name="task" required="required" style="width:90%; margin:0 20px;"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form> 
+    </div>
+<script>
+    function validate (t) {
+    if (t.name.value == '') {
+        alert("Vyplňte prosím jméno úkolu.");
+        t.name.focus();
+        return false;
+    }
+    if (t.task.value == '') {
+        alert("Vyplňte prosím zadání.");
+        t.task.focus();
+        return false;
+    }
+    return true;
+}
+</script>
+{/block}

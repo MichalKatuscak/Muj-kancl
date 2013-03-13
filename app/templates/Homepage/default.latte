@@ -1,0 +1,28 @@
+{block content}
+    <div class="container">
+    
+        <div class="widget">
+            <div class="widget-header">Administrátorský přehled</div>
+                            
+            <table class="table table-striped">
+              <thead>
+                <tr><th>Jméno klienta<th>Email<th>Má platit<th>Zaplaceno do<th>Typ účtu<th> <th> <th>
+              </thead>
+                {foreach $notPay as $client}
+                    <tr><td>{$client->last_name} {$client->first_name}
+                    <td>{$client->email}
+                    <td>{$client->money}
+                    <td>{$client->paid_to|date:'%d.%m.%Y'}
+                    <td>{$client->type}
+                    <td><a n:href="extend $client->id_user" class="btn">Prodloužit</a>
+                    <td>{if $client->login == false}<a n:href="gen $client->id_user" class="btn">Gen. údaje</a>{/if}
+                    {if $client->login == true}<a n:href="gen $client->id_user" class="btn btn-inverse">Gen. údaje</a>{/if}
+                    <td><a href="{link block $client->id_user}" class="btn{!$client->blocked?' btn-danger">Odblokovat':'">Zablokovat'}</a>
+                {/foreach}
+            </table>
+        
+        </div>
+           
+    </div> <!-- /container -->
+
+{/block}

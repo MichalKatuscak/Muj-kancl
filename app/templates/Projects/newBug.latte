@@ -1,0 +1,33 @@
+{block content}
+    <div class="container"> 
+        <div class="row"><div class="span7 widget">
+        <h2><span style="font-weight:normal">Projekt:</span>
+        <a n:href="Projects:show $project->id_project">{$project->name}</a> - 
+                <a n:href="Projects:task $task->id_project_task,$project->id_project">{$task->name}</a></h2> 
+        </div></div>
+{ifset $msg}<div class="row"><div class="span7 widget"><p>{$msg}</div></div>{/ifset}                      
+    <form action="" method="POST" class="form-horizontal" onsubmit="return validate(this)">
+        <div class="row">
+            <div class="span7"> 
+            <div class="widget">
+                <div class="widget-header">Nová chyba</div>   
+                    <div class="control-group">
+                        <textarea rows="5" name="bug" required="required" style="width:90%;margin:0 20px;"></textarea>    
+                    </div>
+                <center style="margin-bottom:20px"><input type="submit" name="new" class="btn" value="Přidat chybu"></center> 
+                </div>
+            </div>
+        </div>
+    </form> 
+    </div>
+<script>
+    function validate (t) {
+    if (t.bug.value == '') {
+        alert("Vyplňte prosím popis chyby.");
+        t.bug.focus();
+        return false;
+    }
+    return true;
+}
+</script>
+{/block}

@@ -1,0 +1,54 @@
+{block content}
+    <div class="container">
+            {if $user->group_id != 3}
+        <div class="widget">
+            <div class="widget-header">Nový projekt</div>
+                <p>
+                {if $limit < 1} 
+                    Váš limit jste vyčerpal, nemůžete vytvořit nový projekt. 
+                {else} 
+                  <a n:href="new" class="btn">Vytvořit projekt</a>
+                    Zbývá vám {!$limit==1000?"&infin;":$limit} {if $limit==1}projekt{elseif $limit>=2 && $limit <=4}projekty{else}projektů{/if} do vyčerpání limitu.
+                {/if}
+                </p>
+        </div>
+            {/if}
+{if}                                                    
+            <div class="row">
+                <div class="span12">
+                    <div class="widget">
+                        <div class="widget-header">Projekty</div>
+                        
+                        <table class="table">
+                        <tr><th style="width:80%">Název projektu<th style="white-space:nowrap">Cena úkolů{if $user->group_id != 3 }<th>Klient<th><th>{/if}
+        {foreach $projects as $project}
+                        <tr><td><a n:href="Projects:show $project->id_project">{$project->name}</a>
+                        <td style="text-align:right;white-space:nowrap">{(float) $project->price} Kč
+                        {if $user->group_id != 3 }
+                            <td style="white-space:nowrap">{$project->client_first_name} {$project->client_last_name}
+                            <td><a id="myLink" n:href="edit $project->id_project"class="icon-pencil"></a> 
+                            <td><a id="myLink" n:href="delete $project->id_project"
+                            data-confirm="modal"
+                            data-confirm-title="Potvrdit"
+                            data-confirm-header-class="btn-inverse"
+                            data-confirm-text="Opravdu chcete project <strong>{$project->name}</strong> smazat?"
+                            data-confirm-cancel-class="btn-success"
+                            data-confirm-cancel-text="Zpět"
+                            data-confirm-ok-class="btn-danger"
+                            data-confirm-ok-text="Smazat"
+                            class="icon-trash"
+                            ></a>
+                        {/if}
+        {/foreach}          
+                        </table>
+                    </div>
+                </div>
+            </div>      
+{else}
+<p>
+Nenalezen žádný projekt.
+{/if isset($project) && $project}
+
+    </div> <!-- /container -->
+
+{/block}

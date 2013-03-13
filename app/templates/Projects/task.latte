@@ -1,0 +1,114 @@
+{block content}
+    <div class="container">
+        <div class="widget">
+        <h2><span style="font-weight:normal">Projekt:</span> <a n:href="Projects:show $project->id_project">{$project->name}</a> - {$task->name}</h2>
+        </div>
+{ifset $msg}<p>{$msg}{/ifset}                      
+        <div class="row">
+            <div class="span4">                             
+                    <form action="" method="POST">
+                <div class="widget">
+                    <div class="widget-header">Stav</div> 
+                        <table class="table">
+                        {if $user->group_id == 3}
+                            <tr>
+                                <td style="text-align:center{if $task->condition==0};background-color:#f99{/if}">
+                                    Nezačato
+                                <td style="text-align:center{if $task->condition==1};background-color:orange{/if}">
+                                    Rozpracováno</label>
+                                <td style="text-align:center{if $task->condition==2};background-color:#9f9{/if}">
+                                    Hotovo
+                        {else}
+                            <tr>
+                                <td style="text-align:center">
+                                    <input type="radio" name="condition" id="level0" value="0"{if $task->condition==0} checked{/if}>
+                                    <br><label for="level0">Nezačato</label>
+                                <td style="text-align:center">
+                                    <input type="radio" name="condition" id="level1" value="1"{if $task->condition==1} checked{/if}>
+                                    <br><label for="level1">Rozpracováno</label>
+                                <td style="text-align:center">
+                                    <input type="radio" name="condition" id="level2" value="2"{if $task->condition==2} checked{/if}>
+                                    <br><label for="level2">Hotovo</label>
+                            <tr><td colspan="3" style="text-align:center"><input type="submit" class="btn" name="edit-condition" value="Uložit">
+                        {/if}
+                        </table>
+                </div>    
+                    </form>
+            </div>
+            <div class="span4">       
+                <div class="widget">
+                    <div class="widget-header">Soubory</div> 
+                    <table class="table">
+                        {if}
+                            {foreach $files as $file}
+                                <tr><td>{str_replace($aj,$cz,date("j.F Y H:i",strtotime($file->uploaded)))}
+                                {if $file->description != '' && $file->description != 1}
+                                    <br><small>{$file->description}</small>
+                                {/if}<td><a href="http://files.mujkancl.cz/{$file->url}">Stáhnout</a>
+                            {/foreach}
+                        {else}
+                            <tr><td colspan="3">Žádný soubor nenalezen.
+                        {/if isset($file) && $file}
+                        {if $user->group_id != 3}<tr><td colspan="3" style="text-align:center"><a class="btn" n:href="Projects:newFile $task->id_project_task,$project->id_project">Nahrát novou verzi</a>{/if}
+                    </table>
+                </div>
+            </div>
+            <div class="span4">                 
+                <div class="widget">
+                        <form action="" method="POST" style="margin:0;padding:0">
+                    <div class="widget-header">Cena</div> 
+                    <table class="table">
+                    {if ($task->price == 0 && $project->client_user_id !=0)}
+    {if $user->group_id != 3}
+                        <tr><td>Návrh dodavatele<td><input name="price_from_supplier" value="{$task->price_from_supplier}" style="width:70px;text-align:right"> Kč
+                        <tr><td>Návrh odběratele<td>{$task->price_from_client} Kč
+                        <tr><td colspan="3" style="text-align:center">
+    <input type="submit" class="btn" name="price-set" value="Navrhnout">
+    <input type="submit" class="btn" name="price-accept" value="Akceptovat" {if $task->price_from_client == 0}disabled{/if}>
+    {else}
+                        <tr><td>Návrh dodavatele<td>{$task->price_from_supplier} Kč
+                        <tr><td>Návrh odběratele<td><input name="price_from_client" value="{$task->price_from_client}" style="width:70px;text-align:right"> Kč
+                        <tr><td colspan="3" style="text-align:center">
+    <input type="submit" class="btn" name="price-set" value="Navrhnout">
+    <input type="submit" class="btn" name="price-accept" value="Akceptovat" {if $task->price_from_supplier == 0}disabled{/if}>
+    {/if}
+                    {else}
+                        <tr><td>Dohodnutá cena<td><strong><span id="noprice">{$task->price}</span><span id="price" style="display:none"><input type="text" name="price" value="{$task->price}" style="width:70px;text-align:right"></span> Kč</strong> 
+                        {if $user->group_id != 3}<a style="cursor:pointer" class="icon-pencil" id="edit-price" onclick="$('#edit-price').hide();$('#noprice').hide();$('#price').show();$('#price-new').show();"></a>{/if}
+                        <tr style="display:none" id="price-new"><td colspan="2" style="text-align:center"><input type="submit" class="btn" name="price-new" value="Uložit"></tr>
+                    {/if}
+                    </table> 
+                        </form> 
+                </div>
+            </div>
+        </div>
+        <p><a n:href="Projects:newBug $task->id_project_task,$project->id_project" class="btn">Přidat chybu</a>
+        {if}
+        <div id="row">         
+              <div class="widget">
+                <div class="widget-header">Chyby</div>
+            <table class="table">
+                <tr><th>ID<th>Chyba<th>Nalezena<th>Opravena
+            {foreach $bugs as $bug}
+                <tr>
+                    <td>{$bug->id_bug}
+                    <td style="width:100%">{$bug->bug}
+                    <td style="white-space:nowrap;text-align:center;">{if strtotime($bug->found) < 0}<span class="icon-remove"></span>{else}{str_replace($aj,$cz,date("j.F Y H:i",strtotime($bug->found)))}{/if}
+                    <td style="white-space:nowrap;text-align:center;">{if strtotime($bug->fixed) < 0}<span class="icon-remove"></span>{else}{str_replace($aj,$cz,date("j.F Y H:i",strtotime($bug->fixed)))}{/if}
+            {/foreach}
+            </table>
+            </div>    
+        </div>
+        {else}
+        <p>Nenalezena žádná chyba.
+        {/if isset($bug) && $bug}
+        <div id="row">      
+            <div class="widget">
+                <div class="widget-header">Zadání</div> 
+                <table class="table">
+                    <tr><td>{!str_replace(array('<div','</div'), array('&nbsp;div','&nbsp;/div'),nl2br($task->task))}
+                </table> 
+            </div>   
+        </div>
+    </div>
+{/block}

@@ -1,0 +1,55 @@
+{block content}
+    <div class="container"> 
+        <div class="row"><div class="span12 widget">
+        <h2><span style="font-weight:normal">Projekt:</span>
+        <a n:href="Projects:show $project->id_project">{$project->name}</a> - 
+                <a n:href="Projects:task $task->id_project_task,$project->id_project">{$task->name}</a></h2> 
+        </div></div>
+{ifset $msg}<p>{$msg}{/ifset}                      
+    <form action="" method="POST" enctype="multipart/form-data" class="form-horizontal" onsubmit="return validate(this)">
+        <div class="row">
+            <div class="span12">   
+              <div class="widget">
+                <div class="widget-header">Nový soubor</div>
+                    <p>Jediný možný formát pro uložení je <em><strong>*.zip</strong></em>
+                    <div class="control-group">
+                        <label class="control-label" for="file">Soubor</label>
+                        <div class="controls">
+                            <input type="file" name="file" id="file" accept="application/zip|application/octet-stream|application/x-zip|application/x-zip-compressed">
+                        </div>
+                    </div>
+                    {if}
+                    <div class="control-group">
+                        <label class="control-label">Opravuje chyby</label>
+                        {foreach $bugs as $bug}
+                            {if strtotime($bug->fixed)<0}
+                            
+                                <div class="controls" style="white-space:nowrap">
+                                    <input type="checkbox" name="bugs[]" value="{$bug->id_bug}" id="bug{$bug->id_bug}"><label style="display:inline;position:relative;top:3px; left:10px;" for="bug{$bug->id_bug}">{$bug->id_bug}) {substr($bug->bug,0,100)}</label>
+                                </div>
+                            
+                            {/if}
+                        {/foreach}
+                    </div>
+                    {/if isset($bug)}
+                    <div class="control-group">
+                        <div class="controls" style="white-space:nowrap">
+                            <input type="submit" name="new" class="btn" value="Přidat soubor">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form> 
+    </div>
+<script>
+function validate (t) {
+    if (t.file.value == '') {
+        alert("Musíte nahrát soubor.");
+        t.file.focus();
+        return false;
+    }
+    return true;
+}
+</script>
+{/block}

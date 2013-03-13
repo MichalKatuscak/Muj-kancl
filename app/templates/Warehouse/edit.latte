@@ -1,0 +1,46 @@
+{block content}
+    <div class="container">
+{ifset $msg}
+        <div class="row"><div class="span6 widget"><p>{$msg}</div></div>
+{/ifset}                      
+    <form action="" method="POST" class="form-horizontal" onsubmit="return validate(this)">
+    <div class="row">
+     <div class="span6">   
+        <div class="widget">
+            <div class="widget-header">Úprava projektu</div>
+        
+        <div class="control-group">
+          <label class="control-label" for="name">Jméno projektu</label>
+          <div class="controls">
+            <input type="text" id="name" name="name" value="{$project->name}" required>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label" for="client_user_id">Klient</label>
+          <div class="controls">
+            <select id="client_user_id" name="client_user_id">
+                    <option value="0">žádný</option>
+                {foreach $clients as $client}
+                    <option value="{$client->id_user}"{if $project->client_user_id == $client->id_user} selected{/if}>{$client->first_name} {$client->last_name}</option>
+                {/foreach}
+            </select>
+          </div>
+<center style="margin-top:20px"><input type="submit" name="edit" class="btn" value="Uložit projekt"></center>   
+        </div> 
+      </div>
+    </div>
+    </div>
+    </form> 
+    </div>
+<script>
+    function validate (t) {
+    if (t.name.value == '') {
+        alert("Vyplňte prosím jméno projektu.");
+        t.name.focus();
+        return false;
+    }
+    return true;
+}
+</script>
+{/block}

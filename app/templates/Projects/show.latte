@@ -1,0 +1,93 @@
+{block content}
+    <div class="container">
+        <div class="widget"><h2><span style="font-weight:normal">Projekt:</span> {$project->name}</h2></div>
+        
+        <div class="row">    
+            <div class="span4">          
+              <div class="widget">
+                <div class="widget-header">Úkoly</div>
+                    <table class="table">
+                        <tr><td>Hotové<td>{$level2}
+                        <tr><td>Rozpracované<td>{$level1}
+                        <tr><td>Nezačaté<td>{$level0}
+                        <tr><td><strong>Celkem</strong><td><strong>{$level0 + $level1 + $level2}</strong>
+                    </table>
+                </div>
+            </div>
+            <div class="span8">     
+                <div class="widget">
+                    <div class="widget-header">Počty úkolů za měsíc</div>
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="610" height="136" style="margin-top:0px;margin-left:5px;">
+                        {foreach $months  as $month=>$data}
+                            <line x1="{50+(($month-1)*50)}" y1="20" x2="{50+(($month-1)*50)}" y2="124"
+                            style="stroke:#ddd;stroke-width:1"/>
+                            <text x="{45+(($month-1)*50)}" y="136" fill="#ddd" style="font-size:10px">{$month}</text>
+                        {/foreach}
+                        <polyline points="
+                        {foreach $months  as $month=>$data}
+                            {50+(($month-1)*50)} {$data['point']+23},
+                        {/foreach}
+                        " style="fill:none;stroke:#333;stroke-width:2" />
+                                                
+                        <text x="2" y="15" fill="#333">{$max_count}</text>
+                        <text x="2" y="120" fill="#333">0</text>
+                        
+                        <line x1="50" y1="20" x2="600" y2="20"
+                        style="stroke:#ddd;stroke-width:1"/>
+                        <line x1="50" y1="20" x2="50" y2="124"
+                        style="stroke:#ddd;stroke-width:1"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    <p><a n:href="newTask $project->id_project" class="btn">Vytvořit úkol</a>
+        {if}
+        <div class="row">
+            <div class="span12">         
+            <div class="widget">
+                <div class="widget-header">Úkoly</div> 
+                <table class="table">
+                    <tr><th>Úkol<th>Začatek práce<th>Ukončení práce<th>Stav<th>Cena<th>Zaplaceno
+                    {foreach $tasks as $task}
+                        <tr>
+                            <td style="width:400px;"><a n:href="task $task->id_project_task,$task->project_id">{$task->name}</a>
+                            <td style="white-space:nowrap">{if strtotime($task->start_work) > 0}{$task->start_work}{else}---{/if}
+                            <td style="white-space:nowrap">{if strtotime($task->end_work) > 0}{$task->end_work}{else}---{/if}
+                            <td style="white-space:nowrap">{if $task->condition==2}Hotovo{elseif $task->condition==1}Rozpracováno{else}Nezačato
+                            {if $task->condition==0}
+    <a id="myLink" n:href="Projects:deleteTask $task->id_project_task, $project->id_project"
+    data-confirm="modal"
+    data-confirm-title="Potvrdit"
+    data-confirm-header-class="btn-inverse"
+    data-confirm-text="Opravdu chcete úkol <strong>{$task->name}</strong> smazat?"
+    data-confirm-cancel-class="btn-success"
+    data-confirm-cancel-text="Zpět"
+    data-confirm-ok-class="btn-danger"
+    data-confirm-ok-text="Smazat"
+    class="icon-trash"
+    ></a>
+                            {/if}
+                            {/if}
+                            {if strtotime($task->found)>0}
+                            <span class="icon-wrench"></span>
+                            {/if}
+                            <td style="text-align:right;">{if $task->price>0}{$task->price} Kč{else}Nepotrvzena{/if}
+                            <td style="text-align:center;">
+                                {if $user->group_id != 3}<a n:href="Projects:taskAsPaid $project->id_project,$task->id_project_task,$task->paid">{/if}
+                                {if $task->paid == 1}
+                                    <span class="icon-ok"></span>
+                                {else}
+                                    <span class="icon-remove"></span>
+                                {/if}
+                                {if $user->group_id != 3}</a>{/if}
+                    {/foreach}
+                </table>
+                </div>
+            </div>
+        </div>
+        {else}
+        <p>Nenalezen žádný úkol.
+        {/if isset($task) && $task}
+        
+    </div>
+{/block}

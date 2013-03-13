@@ -1,0 +1,77 @@
+{block content}
+    <div class="container">
+        <div class="row">
+            <div class="span8">
+            <div class="widget">
+                <div class="widget-header">Nový klient</div>
+                <p>
+                {if $limit < 1} 
+                    Váš limit jste vyčerpal, nemůžete vytvořit nového klienta. 
+                {else} 
+                <a n:href="new" class="btn">Přidat klienta</a>
+                    Zbývá vám {!$limit==1000?"&infin;":$limit} klientů do vyčerpání limitu.
+                {/if}
+                </p>
+            </div>
+            </div>
+            <div class="span4">
+            <div class="widget">
+                <div class="widget-header">Vyhledávání</div>
+                <div style="text-align:center;"><input type="text" style="margin:10px;" id="search"></div>
+            </div>
+            </div>
+        </div>
+{snippet content}
+{if}     
+        <div class="widget">
+            <div class="widget-header">Klienti</div>
+    <table class="table table-striped">
+      <thead>
+        <tr><th>Jméno klienta<th>Telefon<th>Email<th><acronym title="Vygeneruje přístup ke společným fakturám a projektům.">Vygenerovat přístup</acronym><th> <th> 
+      </thead>
+        {foreach $clients as $client}
+            <tr><td style="width:50%">{$client->first_name} {$client->last_name}
+            <td style="white-space:nowrap">{$client->phone}
+            <td style="white-space:nowrap">{$client->email}
+            <td style="white-space:nowrap">{if $client->email !=''}{if $client->login == ''}<a n:href="generate $client->id_user"
+   data-confirm="modal"
+   data-confirm-title="Potvrdit"
+   data-confirm-header-class="btn-inverse"
+   data-confirm-text="Opravdu chcete klientu <strong>{$client->first_name} {$client->last_name}</strong> vygenerovat přístup? Přihlašovací údaju mu okamžitě přijdou emailem."
+   data-confirm-cancel-class="btn-success"
+   data-confirm-cancel-text="Zpět"
+   data-confirm-ok-class="btn-danger"
+   data-confirm-ok-text="Ano vygenerovat">Vygenerovat přístup</a>{else}Přistup vygenerován{/if}{/if}
+            <td><a class="icon-pencil" n:href="edit $client->id_user"></a>
+            <td>
+<a id="myLink" n:href="delete $client->id_user"
+   data-confirm="modal"
+   data-confirm-title="Potvrdit"
+   data-confirm-header-class="btn-inverse"
+   data-confirm-text="Opravdu chcete klienta <strong>{$client->first_name} {$client->last_name}</strong> smazat?"
+   data-confirm-cancel-class="btn-success"
+   data-confirm-cancel-text="Zpět"
+   data-confirm-ok-class="btn-danger"
+   data-confirm-ok-text="Smazat"
+   class="icon-trash"
+   ></a>
+        {/foreach}
+    </table>   
+    </div>
+                 
+{else}
+<p>
+Nenalezen žádný klient.
+{/if isset($client)}
+{/snippet} 
+
+    </div> <!-- /container -->
+<script>
+$("#search").live("keyup", function (event) {
+    var search = this.value;
+    $.get({link Clients:default}+"?search="+search, function (payload) {
+        $.nette.success(payload);
+    });
+});
+</script>
+{/block}

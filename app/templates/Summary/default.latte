@@ -3,7 +3,7 @@
         <div class="row">
             <div class="span4">
                 <div class="widget">
-                    <div class="widget-header"><span class="icon-home"></span>&nbsp;&nbsp;Přehled za rok 2012</div>
+                    <div class="widget-header"><span class="icon-home"></span>&nbsp;&nbsp;Přehled za rok {$today|date:'Y'}</div>
                     <table class="table">
                         <tr><td>Zaplacených faktur: <td>{$num_invoices_paid} <td style="text-align:right"><strong>{number_format($price_invoices_paid, 2, ',', ' ')} Kč</strong>
                         <tr><td>Nezaplacených faktur: <td>{$num_invoices_unpaid} <td style="text-align:right"><strong>{number_format($price_invoices_unpaid, 2, ',', ' ')} Kč</strong>
@@ -14,7 +14,7 @@
             </div>
             <div class="span8">  
                 <div class="widget">
-                    <div class="widget-header">Faktury za rok 2012</div>
+                    <div class="widget-header">Faktury za rok {$today|date:'Y'}</div>
                     
                         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="610" height="137" style="margin-top:0px;margin-left:5px;">
                             {foreach $months  as $month=>$data}

@@ -16,4 +16,9 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
         }
         $this->template->user = $this->getUser()->getIdentity(); 
     }
+    
+    public function beforeRender()
+	{
+		$this->template->today = new Nette\DateTime();
+	}
 }
